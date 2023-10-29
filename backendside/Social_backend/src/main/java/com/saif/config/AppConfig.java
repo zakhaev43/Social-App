@@ -24,21 +24,21 @@ public class AppConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeRequests(authorizeRequests -> {
-                authorizeRequests
-                    .antMatchers("/api/**").authenticated()
-                    .anyRequest().permitAll();
-            })
-            .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-            .csrf().disable()
-            .cors().configurationSource(corsConfigurationSource())
-            .and()
-            .oauth2Login()
-            .and()
-            .httpBasic().and()
-            .formLogin();
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeRequests(authorizeRequests -> {
+                    authorizeRequests
+                            .requestMatchers("/api/**").authenticated()
+                            .anyRequest().permitAll();
+                })
+                .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+                .csrf().disable()
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
+                .oauth2Login()
+                .and()
+                .httpBasic().and()
+                .formLogin();
 
         return http.build();
     }
@@ -50,11 +50,11 @@ public class AppConfig {
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
                 cfg.setAllowedOrigins(Arrays.asList(
-                    "http://localhost:3000",
-                    "http://localhost:4000",
-                    "http://localhost:4200",
-                    "https://twitter-clone-two-woad.vercel.app",
-                    "https://twitter-clone-six-kohl.vercel.app"
+                        "http://localhost:3000",
+                        "http://localhost:4000",
+                        "http:localhost:4200",
+                        "https://twitter-clone-two-woad.vercel.app",
+                        "https://twitter-clone-six-kohl.vercel.app"
                 ));
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);
